@@ -11,7 +11,6 @@
 
     <modules>
         <module>flink-tutorial-common</module>
-        <module>flink-tutorial-source</module>
         <module>flink-tutorial-example</module>
     </modules>
 
@@ -28,6 +27,7 @@
     </properties>
 
     <dependencies>
+        <!-- kafka -->
         <dependency>
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka-0.11_${scala.binary.version}</artifactId>
