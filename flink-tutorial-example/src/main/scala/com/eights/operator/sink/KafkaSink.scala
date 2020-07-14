@@ -1,4 +1,4 @@
-package com.eights.sink
+package com.eights.operator.sink
 
 import com.eights.sensor.bean.SensorReading
 import com.eights.sensor.utils.SensorSource

@@ -1,4 +1,4 @@
-package com.eights.transform
+package com.eights.operator.transform
 
 import com.eights.sensor.bean.SensorReading
 import com.eights.sensor.utils.SensorSource

@@ -1,4 +1,4 @@
-package com.eights.transform
+package com.eights.operator.transform
 
 import org.apache.flink.streaming.api.scala._
 
