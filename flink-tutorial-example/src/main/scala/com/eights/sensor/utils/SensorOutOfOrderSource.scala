@@ -8,7 +8,7 @@ import org.apache.flink.streaming.api.functions.source.SourceFunction.SourceCont
 
 import scala.collection.immutable
 
-class SensorSource extends RichParallelSourceFunction[SensorReading] {
+class SensorOutOfOrderSource extends RichParallelSourceFunction[SensorReading] {
   // flag indicating whether source is still running.
   var running: Boolean = true
 
@@ -30,14 +30,15 @@ class SensorSource extends RichParallelSourceFunction[SensorReading] {
 
       // update temperature
       curFTemp = curFTemp.map(t => (t._1, t._2 + (rand.nextGaussian() * 0.5)))
-      // get current time
-      val curTime: Long = Calendar.getInstance.getTimeInMillis
+
+      // add random 1s delay
+      val curTime: Long = Calendar.getInstance.getTimeInMillis - rand.nextInt(3000)
 
       // emit new SensorReading
       curFTemp.foreach(t => srcCtx.collect(SensorReading(t._1, curTime, t._2)))
 
       // wait for 100 ms
-      Thread.sleep(100)
+      Thread.sleep(500)
     }
 
   }

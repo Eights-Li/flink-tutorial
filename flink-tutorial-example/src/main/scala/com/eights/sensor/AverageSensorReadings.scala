@@ -49,7 +49,7 @@ object AverageSensorReadings {
   class CelsiusMapFunction extends MapFunction[SensorReading, SensorReading] {
 
     override def map(value: SensorReading): SensorReading = {
-      val celsius = (value.temperature - 32) * (5.0 / 9.0)
+      val celsius: Double = (value.temperature - 32) * (5.0 / 9.0)
       SensorReading(value.id, value.timestamp, celsius)
     }
   }
@@ -75,7 +75,7 @@ object AverageSensorReadings {
 
       // compute the average temperature
       val (cnt, sum) = vals.foldLeft((0, 0.0))((c, r) => (c._1 + 1, c._2 + r.temperature))
-      val avgTemp = sum / cnt
+      val avgTemp: Double = sum / cnt
 
       // emit a SensorReading with the average temperature
       out.collect(SensorReading(sensorId, window.getEnd, avgTemp))
