@@ -1,7 +1,7 @@
-package com.eights.sensor
+package sensor
 
-import com.eights.sensor.bean.SensorReading
-import com.eights.sensor.utils.{SensorSource, SensorTimeAssigner}
+import sensor.bean.SensorReading
+import sensor.utils.{SensorSource, SensorTimeAssigner}
 import org.apache.flink.api.common.functions.{FilterFunction, MapFunction}
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.scala._

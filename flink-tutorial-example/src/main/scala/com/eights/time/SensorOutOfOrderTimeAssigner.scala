@@ -1,6 +1,6 @@
 package com.eights.time
 
-import com.eights.sensor.bean.SensorReading
+import sensor.bean.SensorReading
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor
 import org.apache.flink.streaming.api.windowing.time.Time
 

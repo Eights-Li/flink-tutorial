@@ -1,7 +1,7 @@
 package com.eights.operator.transform
 
-import com.eights.sensor.bean.SensorReading
-import com.eights.sensor.utils.SensorSource
+import sensor.bean.SensorReading
+import sensor.utils.SensorSource
 import org.apache.flink.streaming.api.scala._
 
 

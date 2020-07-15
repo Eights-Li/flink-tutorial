@@ -1,7 +1,7 @@
 package com.eights.operator.sink
 
-import com.eights.sensor.bean.SensorReading
-import com.eights.sensor.utils.SensorSource
+import sensor.bean.SensorReading
+import sensor.utils.SensorSource
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer011
@@ -21,7 +21,7 @@ object KafkaSink {
 
     //celsius
     val celsiusDataStream: DataStream[String] = sensorDataStream.map(elem => {
-      val celsius = (elem.temperature - 32) * (5.0 / 9.0)
+      val celsius: Double = (elem.temperature - 32) * (5.0 / 9.0)
       elem.id + "|" + elem.timestamp + "|" + celsius
     })
 

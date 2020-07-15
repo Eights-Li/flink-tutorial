@@ -2,8 +2,8 @@ package com.eights.time
 
 import java.util.Date
 
-import com.eights.sensor.bean.SensorReading
-import com.eights.sensor.utils.SensorOutOfOrderSource
+import sensor.bean.SensorReading
+import sensor.utils.SensorOutOfOrderSource
 import org.apache.commons.lang3.time.FastDateFormat
 import org.apache.flink.api.java.tuple.Tuple
 import org.apache.flink.streaming.api.TimeCharacteristic

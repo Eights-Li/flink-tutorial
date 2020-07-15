@@ -11,5 +11,13 @@
 
     <artifactId>flink-tutorial-example</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.eights</groupId>
+            <artifactId>flink-tutorial-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

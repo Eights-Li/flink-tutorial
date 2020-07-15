@@ -1,22 +1,22 @@
-package com.eights.tablesql
+package com.eights.sql
 
-import com.eights.sensor.bean.SensorReading
-import com.eights.sensor.utils.SensorSource
 import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor
-import org.apache.flink.streaming.api.scala._
+import org.apache.flink.streaming.api.scala.{DataStream, StreamExecutionEnvironment}
 import org.apache.flink.streaming.api.windowing.time.Time
-import org.apache.flink.table.api._
-import org.apache.flink.table.api.scala._
+import org.apache.flink.table.api.scala.StreamTableEnvironment
+import org.apache.flink.table.api.{EnvironmentSettings, Table, Tumble}
+import sensor.bean.SensorReading
+import sensor.utils.SensorSource
 
-object SQL {
+object Table {
 
   /**
-   * flink sql
+   * table demo
    *
    * @param args input args
    */
-  def main(args: Array[String]): Unit = {
+ def main(args: Array[String]): Unit = {
 
     val env: StreamExecutionEnvironment = StreamExecutionEnvironment.getExecutionEnvironment
 
@@ -37,24 +37,16 @@ object SQL {
         }
       })
 
-    val sensorTable: Table = tableEnv.fromDataStream(sensorDataStream, 'id, 'timestamp.rowtime, 'temperature)
-      .as("id", "ts", "temperature")
+    val sensorTable: Table = tableEnv.fromDataStream(sensorDataStream, 'id,'timestamp.rowtime, 'temperature)
 
-    //registry a temp table
-    tableEnv.createTemporaryView("sensor_table", sensorTable)
+    val resTable: Table = sensorTable.window(Tumble over 5.seconds on 'timestamp as 'tw)
+      .groupBy('id, 'tw)
+      .select('id, 'id.count)
 
-    val resTable: Table = tableEnv.sqlQuery(
-      s"""
-         |select id, count(id)
-         |from sensor_table
-         |group by id, tumble(ts, interval '5' second)
-         |""".stripMargin)
+    resTable.toAppendStream[(String, Long)].print()
 
-    val resDataStream: DataStream[(Boolean, (String, Long))] = resTable.toRetractStream[(String, Long)]
+    env.execute("table demo")
 
-    resDataStream.print("Sensor_id:")
-
-    env.execute("sql demo")
 
   }
 

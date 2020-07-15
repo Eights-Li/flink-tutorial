@@ -1,8 +1,8 @@
-package com.eights.sensor.utils
+package sensor.utils
 
 import java.util.{Calendar, Random}
 
-import com.eights.sensor.bean.SensorReading
+import sensor.bean.SensorReading
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction
 import org.apache.flink.streaming.api.functions.source.SourceFunction.SourceContext
 

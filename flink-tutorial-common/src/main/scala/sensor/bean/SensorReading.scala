@@ -1,4 +1,4 @@
-package com.eights.sensor.bean
+package sensor.bean
 
 /**
  * temperatures sensor
