@@ -12,6 +12,7 @@
     <modules>
         <module>flink-tutorial-common</module>
         <module>flink-tutorial-example</module>
+        <module>flink-tutuorial-project</module>
     </modules>
 
     <properties>
