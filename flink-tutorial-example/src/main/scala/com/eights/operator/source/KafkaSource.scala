@@ -25,12 +25,12 @@ object KafkaSource {
     properties.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
     properties.setProperty("auto.offset.reset", "latest")
 
-    val kafakSource: FlinkKafkaConsumerBase[String] = new FlinkKafkaConsumer011[String]("sensor_celsius",
+    val kafkaSource: FlinkKafkaConsumerBase[String] = new FlinkKafkaConsumer011[String]("sensor_celsius",
       new SimpleStringSchema(),
       properties)
       .setStartFromEarliest()
 
-    val sensorDataStream: DataStream[String] = env.addSource(kafakSource)
+    val sensorDataStream: DataStream[String] = env.addSource(kafkaSource)
 
     sensorDataStream.print()
 
