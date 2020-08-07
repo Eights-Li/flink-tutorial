@@ -4,8 +4,8 @@ import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrdernessTimestampExtractor
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.windowing.time.Time
-import org.apache.flink.table.api.scala._
 import org.apache.flink.table.api._
+import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 import sensor.bean.SensorReading
 import sensor.utils.SensorSource
 
@@ -50,9 +50,6 @@ object SQL {
          |group by id, tumble(ts, interval '5' second)
          |""".stripMargin)
 
-    val resDataStream: DataStream[(Boolean, (String, Long))] = resTable.toRetractStream[(String, Long)]
-
-    resDataStream.print("Sensor_id:")
 
     env.execute("sql demo")
 

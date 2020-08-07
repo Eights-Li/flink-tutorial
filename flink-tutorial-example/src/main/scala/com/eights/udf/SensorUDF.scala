@@ -6,7 +6,7 @@ import org.apache.flink.streaming.api.functions.timestamps.BoundedOutOfOrderness
 import org.apache.flink.streaming.api.scala._
 import org.apache.flink.streaming.api.windowing.time.Time
 import org.apache.flink.table.api._
-import org.apache.flink.table.api.scala._
+import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 import org.apache.flink.table.functions.ScalarFunction
 import org.apache.flink.types.Row
 import sensor.bean.SensorReading
@@ -66,7 +66,6 @@ object SensorUDF {
          |from sensor_table
          |""".stripMargin)
 
-    sqlResTable.toAppendStream[(String, Double, String, Long)].print("sqlTable")
 
     env.execute("flink table udf")
   }

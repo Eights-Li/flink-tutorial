@@ -12,11 +12,14 @@
     <artifactId>flink-tutorial-cep</artifactId>
 
     <dependencies>
+
         <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-cep-scala_${scala.binary.version}</artifactId>
-            <version>${flink.version}</version>
+            <groupId>com.eights</groupId>
+            <artifactId>flink-tutorial-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
+
     </dependencies>
 
 </project>
