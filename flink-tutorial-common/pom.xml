@@ -11,6 +11,19 @@
 
     <artifactId>flink-tutorial-common</artifactId>
 
+    <properties>
+        <compiler.version>1.8</compiler.version>
+        <flink.version>1.11.1</flink.version>
+        <java.version>1.8</java.version>
+        <hive.version>1.1.0</hive.version>
+        <mysql.version>5.1.34</mysql.version>
+        <scala.binary.version>2.11</scala.binary.version>
+
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <dependencies>
         <!-- kafka -->
         <dependency>
@@ -100,15 +113,17 @@
             <version>${flink.version}</version>
         </dependency>
 
+        <!-- Add logging framework, to produce console output when running in the IDE. -->
+        <!-- These dependencies are excluded from the application JAR by default. -->
         <dependency>
             <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.7</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>1.7.25</version>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
         </dependency>
     </dependencies>
 
