@@ -1,5 +1,8 @@
 package com.eights.upgrade;
 
+import com.eights.utils.MarkdownMessage;
+import com.eights.utils.WxChatbotClient;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;
 import org.apache.flink.api.common.time.Time;
@@ -10,6 +13,7 @@ import org.apache.flink.streaming.api.functions.source.SourceFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,7 +24,8 @@ public class EnableCheckpointForFailover {
 
     private static final Logger LOG = LoggerFactory.getLogger(EnableCheckpointForFailover.class);
 
-    public static void main(String[] args) throws Exception {
+
+    public static void main(String[] args) {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
@@ -61,7 +66,25 @@ public class EnableCheckpointForFailover {
             }
         }).keyBy(0).sum(1).print();
 
-        env.execute("cp for failover");
+        try {
+            env.execute("cp for failover");
+        } catch (Exception e) {
+            String errorMsg = e.getMessage();
+
+            MarkdownMessage markdownMessage = new MarkdownMessage();
+            markdownMessage.add(MarkdownMessage.getHeaderText(1, "Flink应用名称：Check point for failover"));
+            markdownMessage.add(MarkdownMessage.getReferenceText("时间:" + DateFormatUtils.format(System.currentTimeMillis(),"yyyy-MM-dd HH:mm:ss")));
+            markdownMessage.add("\n\n");
+            markdownMessage.add(MarkdownMessage.getReferenceText("异常信息：" + errorMsg));
+
+            String webHook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=01845ff6-27c2-4820-8399-136a31ccf8eb";
+
+            try {
+                WxChatbotClient.send(webHook, markdownMessage);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
 
 
     }
