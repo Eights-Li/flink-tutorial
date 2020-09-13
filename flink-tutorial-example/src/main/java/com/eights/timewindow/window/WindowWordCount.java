@@ -1,16 +1,21 @@
 package com.eights.timewindow.window;
 
-import com.eights.timewindow.source.WordSource;
+import com.eights.timewindow.source.WordOutOfOrderSource;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.tuple.Tuple4;
+import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.AssignerWithPeriodicWatermarks;
 import org.apache.flink.streaming.api.functions.windowing.ProcessWindowFunction;
+import org.apache.flink.streaming.api.watermark.Watermark;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
+
+import javax.annotation.Nullable;
 
 /**
  * 窗口划分元素测试
@@ -23,10 +28,16 @@ public class WindowWordCount {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
+        //使用event time处理乱序数据
+        env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
-        DataStreamSource<String> wordDs = env.addSource(new WordSource());
+//        DataStreamSource<String> wordDs = env.addSource(new WordSource());
+        DataStreamSource<String> wordDs = env.addSource(new WordOutOfOrderSource());
+
+
 
         wordDs.flatMap(new WordFlatMapFunction())
+                .assignTimestampsAndWatermarks(new EventTimeExtractor())
                 .keyBy(new KeySelector<Tuple4<String, Integer, Long, String>, String>() {
                     @Override
                     public String getKey(Tuple4<String, Integer, Long, String> words) throws Exception {
@@ -78,4 +89,19 @@ public class WindowWordCount {
             out.collect(Tuple4.of(key, sum, windowStart, windowEnd));
         }
     }
+
+    private static class EventTimeExtractor implements AssignerWithPeriodicWatermarks<Tuple4<String, Integer, Long, String>> {
+
+        @Nullable
+        @Override
+        public Watermark getCurrentWatermark() {
+            return new Watermark(System.currentTimeMillis() - 5000);
+        }
+
+        @Override
+        public long extractTimestamp(Tuple4<String, Integer, Long, String> element, long recordTimestamp) {
+            return element.f2;
+        }
+    }
+
 }
