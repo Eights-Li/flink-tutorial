@@ -18,6 +18,10 @@
         <hive.version>1.1.0</hive.version>
         <mysql.version>5.1.34</mysql.version>
         <scala.binary.version>2.11</scala.binary.version>
+        <jackson.version>2.9.8</jackson.version>
+        <vertx.version>3.5.4</vertx.version>
+        <guava.version>20.0</guava.version>
+        <bahir.version>1.0</bahir.version>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -111,6 +115,53 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-cep-scala_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
+        </dependency>
+
+        <!--        jackson-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <!--        use vertx as mysql Asynchronous client-->
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-jdbc-client</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-core</artifactId>
+            <version>${vertx.version}</version>
+        </dependency>
+
+        <!--        rocksdb-->
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-statebackend-rocksdb_${scala.binary.version}</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+        <!--        bahir reids connector-->
+        <dependency>
+            <groupId>org.apache.bahir</groupId>
+            <artifactId>flink-connector-redis_${scala.binary.version}</artifactId>
+            <version>${bahir.version}</version>
+        </dependency>
+
+        <!--        guava-->
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
 
         <dependency>
