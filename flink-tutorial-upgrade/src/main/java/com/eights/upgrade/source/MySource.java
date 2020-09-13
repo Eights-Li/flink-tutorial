@@ -8,7 +8,7 @@ public class MySource implements SourceFunction<Tuple3<String, Integer, Long>> {
     public void run(SourceContext<Tuple3<String, Integer, Long>> ctx) throws Exception {
         int index = 1;
         while (true) {
-            ctx.collect(new Tuple3<>("key", index++, System.currentTimeMillis()));
+            ctx.collect(new Tuple3<String, Integer, Long>("key", index++, System.currentTimeMillis()));
             Thread.sleep(100);
         }
 

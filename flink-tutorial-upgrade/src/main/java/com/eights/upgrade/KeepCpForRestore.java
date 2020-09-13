@@ -57,7 +57,7 @@ public class KeepCpForRestore {
                 throw new RuntimeException(msg);
             }
 
-            return new Tuple3<>(data.f0, data.f1, System.currentTimeMillis());
+            return new Tuple3<String, Integer, Long>(data.f0, data.f1, System.currentTimeMillis());
         }
     }
 }
