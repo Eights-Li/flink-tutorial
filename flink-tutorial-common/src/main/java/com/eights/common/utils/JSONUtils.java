@@ -1,4 +1,4 @@
-package com.eights.common.kafka.utilis;
+package com.eights.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.annotation.JsonInclude;

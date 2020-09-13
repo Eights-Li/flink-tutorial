@@ -1,4 +1,4 @@
-package com.eights.common.kafka.utilis;
+package com.eights.common.utils;
 
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.FastDateFormat;

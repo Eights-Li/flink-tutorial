@@ -1,6 +1,6 @@
-package com.eights.common.kafka.utilis;
+package com.eights.common.utils;
 
-import com.eights.common.kafka.constant.PropertiesConstants;
+import com.eights.common.constant.PropertiesConstants;
 import org.apache.flink.api.java.utils.ParameterTool;
 
 import java.util.Properties;

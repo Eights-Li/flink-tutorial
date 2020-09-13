@@ -1,4 +1,4 @@
-package com.eights.utils;
+package com.eights.wxutils;
 
 import com.alibaba.fastjson.JSON;
 

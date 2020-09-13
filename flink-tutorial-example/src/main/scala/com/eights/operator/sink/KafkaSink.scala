@@ -1,10 +1,10 @@
 package com.eights.operator.sink
 
-import sensor.bean.SensorReading
-import sensor.utils.SensorSource
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.scala._
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer011
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer
+import sensor.bean.SensorReading
+import sensor.utils.SensorSource
 
 object KafkaSink {
 
@@ -26,7 +26,7 @@ object KafkaSink {
     })
 
     //sink to apache kafka
-    celsiusDataStream.addSink(new FlinkKafkaProducer011[String]("dn2.eights.com:9092",
+    celsiusDataStream.addSink(new FlinkKafkaProducer[String]("dn2.eights.com:9092",
       "sensor_celsius",
       new SimpleStringSchema()))
 

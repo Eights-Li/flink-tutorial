@@ -4,7 +4,7 @@ import java.util.Properties
 
 import org.apache.flink.api.common.serialization.SimpleStringSchema
 import org.apache.flink.streaming.api.scala._
-import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer011, FlinkKafkaConsumerBase}
+import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer, FlinkKafkaConsumerBase}
 
 object KafkaSource {
 
@@ -25,7 +25,7 @@ object KafkaSource {
     properties.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
     properties.setProperty("auto.offset.reset", "latest")
 
-    val kafkaSource: FlinkKafkaConsumerBase[String] = new FlinkKafkaConsumer011[String]("sensor_celsius",
+    val kafkaSource: FlinkKafkaConsumerBase[String] = new FlinkKafkaConsumer[String]("sensor_celsius",
       new SimpleStringSchema(),
       properties)
       .setStartFromEarliest()

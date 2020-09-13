@@ -9,7 +9,7 @@ import org.apache.flink.streaming.api.TimeCharacteristic
 import org.apache.flink.streaming.api.functions.sink.filesystem.StreamingFileSink
 import org.apache.flink.streaming.api.functions.sink.filesystem.rollingpolicies.DefaultRollingPolicy
 import org.apache.flink.streaming.api.scala._
-import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer011, FlinkKafkaConsumerBase}
+import org.apache.flink.streaming.connectors.kafka.{FlinkKafkaConsumer, FlinkKafkaConsumerBase}
 
 object HDFSSink {
 
@@ -33,7 +33,7 @@ object HDFSSink {
     properties.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer")
     properties.setProperty("auto.offset.reset", "latest")
 
-    val kafkaSource: FlinkKafkaConsumerBase[String] = new FlinkKafkaConsumer011[String]("can-msg-correct-data",
+    val kafkaSource: FlinkKafkaConsumerBase[String] = new FlinkKafkaConsumer[String]("can-msg-correct-data",
       new SimpleStringSchema(),
       properties)
 

@@ -1,4 +1,4 @@
-package com.eights.common.kafka.constant;
+package com.eights.common.constant;
 
 public final class PropertiesConstants {
     public static final String KAFKA_BROKERS = "kafka.brokers";

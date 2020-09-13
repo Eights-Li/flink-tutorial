@@ -1,4 +1,4 @@
-package com.eights.common.kafka.bean;
+package com.eights.common.bean;
 
 import java.util.Objects;
 

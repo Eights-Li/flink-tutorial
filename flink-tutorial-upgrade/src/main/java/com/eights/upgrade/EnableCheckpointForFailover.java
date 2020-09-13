@@ -1,7 +1,7 @@
 package com.eights.upgrade;
 
-import com.eights.utils.MarkdownMessage;
-import com.eights.utils.WxChatbotClient;
+import com.eights.wxutils.MarkdownMessage;
+import com.eights.wxutils.WxChatbotClient;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.restartstrategy.RestartStrategies;

@@ -1,10 +1,10 @@
-package com.eights.common.kafka.deserialization;
+package com.eights.common.deserialization;
 
 
 
 
-import com.eights.common.kafka.bean.KafkaMessage;
-import com.eights.common.kafka.bean.KafkaMetaData;
+import com.eights.common.bean.KafkaMessage;
+import com.eights.common.bean.KafkaMetaData;
 import org.apache.flink.annotation.PublicEvolving;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
 import org.apache.flink.streaming.connectors.kafka.KafkaDeserializationSchema;

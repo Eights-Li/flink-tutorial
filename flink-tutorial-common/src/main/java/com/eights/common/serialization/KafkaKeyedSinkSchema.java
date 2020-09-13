@@ -1,6 +1,6 @@
-package com.eights.common.kafka.serialization;
+package com.eights.common.serialization;
 
-import com.eights.common.kafka.bean.KafkaMessage;
+import com.eights.common.bean.KafkaMessage;
 import org.apache.flink.streaming.util.serialization.KeyedSerializationSchema;
 
 public class KafkaKeyedSinkSchema implements KeyedSerializationSchema<KafkaMessage> {

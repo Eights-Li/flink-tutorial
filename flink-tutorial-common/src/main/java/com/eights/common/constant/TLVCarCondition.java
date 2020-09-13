@@ -1,4 +1,4 @@
-package com.eights.common.kafka.constant;
+package com.eights.common.constant;
 
 public final class TLVCarCondition {
 
