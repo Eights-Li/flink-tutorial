@@ -22,7 +22,7 @@ public class JSONUtils {
      */
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    private JSONUtils() {
+    static  {
         //Feature that determines whether encountering of unknown properties, false means not analyzer unknown properties
         MAPPER.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).setTimeZone(TimeZone.getDefault());
         // 对象的所有字段全部列入
