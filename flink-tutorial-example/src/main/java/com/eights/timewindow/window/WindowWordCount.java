@@ -23,7 +23,6 @@ import javax.annotation.Nullable;
  */
 public class WindowWordCount {
 
-
     public static void main(String[] args) throws Exception {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
