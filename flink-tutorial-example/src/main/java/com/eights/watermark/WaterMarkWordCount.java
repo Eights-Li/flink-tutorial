@@ -5,6 +5,7 @@ import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.streaming.api.TimeCharacteristic;
+import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.AssignerWithPeriodicWatermarks;
@@ -14,15 +15,17 @@ import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindo
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
 import org.apache.flink.util.Collector;
+import org.apache.flink.util.OutputTag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * 测试watermark
+ * 1 添加event time + watermark的测试用例
  * 样例数据:
  * flink,1568460862000
  * flink,1568460866000
@@ -33,6 +36,33 @@ import java.util.List;
  * flink,1568460877000
  * flink,1568460879000
  *
+ * 2 可以为window指定允许迟到数据的时间
+ * 如果设置迟到数据的容忍阈值为2秒，会触发两次窗口计算
+ * 第一次计算：watermark >= window end time
+ * 第二次计算：watermark < window end time + allowedLateness
+ * 样例数据：
+ * flink,1461756870000
+ * flink,1461756883000
+ * flink,1461756870000
+ * flink,1461756871000
+ * flink,1461756872000
+ * flink,1461756884000
+ * flink,1461756870000
+ * flink,1461756871000
+ * flink,1461756872000
+ * flink,1461756885000
+ * flink,1461756870000
+ * flink,1461756871000
+ * flink,1461756872000
+ *
+ * 3 迟到的数据可以收集
+ * 采用SideOutPut的方式，打tag进行输出
+ * 样例数据：
+ * flink,1461756870000
+ * flink,1461756883000
+ * flink,1461756870000
+ * flink,1461756871000
+ * flink,1461756872000
  * @author Eights
  */
 public class WaterMarkWordCount {
@@ -45,6 +75,9 @@ public class WaterMarkWordCount {
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
         env.getConfig().setAutoWatermarkInterval(1000);
 
+        OutputTag<Tuple2<String, Long>> lateTag = new OutputTag<Tuple2<String, Long>>("late-data"){};
+
+
         DataStreamSource<String> socketDs = env.socketTextStream("192.168.127.121", 8888);
         socketDs.map(new WordMapFunction())
                 .assignTimestampsAndWatermarks(new EventTimeExtractor())
@@ -54,7 +87,12 @@ public class WaterMarkWordCount {
                         return data.f0;
                     }
                 }).window(TumblingEventTimeWindows.of(Time.seconds(3)))
+                .allowedLateness(Time.seconds(2))
+                .sideOutputLateData(lateTag)
                 .process(new WordKeyedProcessWindowFunction()).print();
+
+        //获取迟到数据的侧流
+        DataStream<Tuple2<String, Long>> lateDs = socketDs.getSideOutput(lateTag);
 
         env.execute("watermark demo");
 
@@ -89,7 +127,7 @@ public class WaterMarkWordCount {
             LOG.info(String.format("record: [%s], event time: [%s], max event time: [%s], current watermark: [%s]", element,
                     dateFormat.format(element.f1),
                     dateFormat.format(currentMaxEventTime),
-                    dateFormat.format(getCurrentWatermark().getTimestamp())));
+                    dateFormat.format(Objects.requireNonNull(getCurrentWatermark()).getTimestamp())));
 
             return currentElementEventTime;
         }
