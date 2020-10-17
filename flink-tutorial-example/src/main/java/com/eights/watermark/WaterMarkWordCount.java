@@ -74,9 +74,7 @@ public class WaterMarkWordCount {
         env.setParallelism(1);
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
         env.getConfig().setAutoWatermarkInterval(1000);
-
         OutputTag<Tuple2<String, Long>> lateTag = new OutputTag<Tuple2<String, Long>>("late-data"){};
-
 
         DataStreamSource<String> socketDs = env.socketTextStream("192.168.127.121", 8888);
         socketDs.map(new WordMapFunction())
