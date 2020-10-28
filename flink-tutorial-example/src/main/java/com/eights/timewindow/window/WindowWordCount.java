@@ -33,8 +33,6 @@ public class WindowWordCount {
 //        DataStreamSource<String> wordDs = env.addSource(new WordSource());
         DataStreamSource<String> wordDs = env.addSource(new WordOutOfOrderSource());
 
-
-
         wordDs.flatMap(new WordFlatMapFunction())
                 .assignTimestampsAndWatermarks(new EventTimeExtractor())
                 .keyBy(new KeySelector<Tuple4<String, Integer, Long, String>, String>() {
