@@ -18,7 +18,7 @@
         <hive.version>1.1.0</hive.version>
         <mysql.version>5.1.34</mysql.version>
         <scala.binary.version>2.11</scala.binary.version>
-        <jackson.version>2.9.8</jackson.version>
+        <jackson.version>2.9.10.8</jackson.version>
         <vertx.version>3.5.4</vertx.version>
         <guava.version>20.0</guava.version>
         <bahir.version>1.0</bahir.version>
